@@ -20,15 +20,18 @@ function loader(element) {
     }, 300);
 }
 
-function typeText(element, text) {
+function typeText(element, text, callback) {
     let index = 0
 
     let interval = setInterval(() => {
         if (index < text.length) {
             element.innerHTML += text.charAt(index)
             index++
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         } else {
             clearInterval(interval)
+            callback();
         }
     }, 20)
 }
@@ -86,7 +89,7 @@ const handleSubmit = async (e) => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    const response = await fetch('https://chat-openai-mxgd.onrender.com', {
+    const response = await fetch('http://localhost:3000', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
